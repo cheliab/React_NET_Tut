@@ -55,9 +55,59 @@ class CommentList extends React.Component {
 }
 
 class CommentForm extends React.Component {
+    
+    constructor(props) {
+        super(props);
+        
+        this.state = { author: '', text: '' };
+        
+        this.handleAuthorChange = this.handleAuthorChange.bind(this);
+        this.handleTextChange = this.handleTextChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    
+    handleAuthorChange(e) {
+        this.setState({ author: e.target.value });
+    }
+    
+    handleTextChange(e) {
+        this.setState({ text: e.target.value })
+    }
+    
+    handleSubmit(e) {
+        e.preventDefault();
+        
+        const author = this.state.author.trim();
+        const text = this.state.text.trim();
+        
+        if (!text || !author) {
+            return;
+        }
+        
+        this.setState({ author: '', text: '' });
+    }
+    
     render () {
         return (
-            <div className="commentForm">Comment form</div>    
+            <form className="commentForm" onSubmit={this.handleSubmit}>
+                <input 
+                    type="text" 
+                    placeholder="Name" 
+                    value={this.state.author}
+                    onChange={this.handleAuthorChange}
+                />
+                <br/>
+                <br/>
+                <input 
+                    type="text" 
+                    placeholder="Comment..." 
+                    value={this.state.text}
+                    onChange={this.handleTextChange}
+                />
+                <br/>
+                <br/>
+                <input type="submit" value="Post" />
+            </form>    
         );
     }
 }
